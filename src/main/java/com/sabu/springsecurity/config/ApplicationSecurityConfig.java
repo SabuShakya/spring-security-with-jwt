@@ -35,13 +35,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth){
         // configure authentication manager
         auth.userDetailsService(authenticationService).passwordEncoder(passwordEncoder());
+        // auth.userDetailsService() will initiate the DaoAuthenticationProvider interface
+        // using our implementation of UserDetailsService interface and register it in Authentication manager.
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http){
         // Enable CORS and disable CSRF
 //        http = http.cors().and().csrf().disable();
 
