@@ -40,3 +40,9 @@ If we want to log out, we can access the following URL: http://localhost:8080/lo
 ## Spring Security Architecture Overview ##
 
 ![Alt text](./Auth.png?raw=true "Title")
+
+References:
+
+- https://www.youtube.com/watch?v=caCJAJC41Rk&ab_channel=JavaBrains
+- [Spring Security with JWT for REST API](https://www.toptal.com/spring/spring-security-tutorial)
+- https://amigoscode.com/courses/enrolled/728126
