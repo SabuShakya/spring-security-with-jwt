@@ -2,21 +2,16 @@ package com.sabu.springsecurity.config;
 
 
 import com.sabu.springsecurity.security.AuthenticationService;
+import com.sabu.springsecurity.security.JwtAuthenticationFilter;
+import com.sabu.springsecurity.security.JwtTokenVerifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Configuration for Spring security
@@ -34,24 +29,24 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         this.authenticationService = authenticationService;
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth)  throws Exception  {
-        // configure authentication manager
-        auth.userDetailsService(authenticationService).passwordEncoder(passwordEncoder());
-        // auth.userDetailsService() will initiate the DaoAuthenticationProvider interface
-        // using our implementation of UserDetailsService interface and register it in Authentication manager.
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        // configure authentication manager
+//        auth.userDetailsService(authenticationService).passwordEncoder(passwordEncoder());
+//        // auth.userDetailsService() will initiate the DaoAuthenticationProvider interface
+//        // using our implementation of UserDetailsService interface and register it in Authentication manager.
+//    }
 
     @Override
-    protected void configure(HttpSecurity http)  throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
         // Enable CORS and disable CSRF
 //        http = http.cors().and().csrf().disable();
 
-        // Set session management to stateless
-//        http = http
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and();
+//         Set session management to stateless
+        http = http
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and();
 
         // Set unauthorized requests exception handler
 //        http = http
@@ -68,6 +63,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Set permissions on endpoints
         http.csrf().disable()
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilterAfter(new JwtTokenVerifier(), JwtAuthenticationFilter.class)// Add JWT verifier filter after authentication filter
                 .authorizeRequests()
                 // Our public endpoints
                 .antMatchers("/api/public/**").permitAll()
@@ -88,7 +85,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
