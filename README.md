@@ -117,3 +117,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 ![Alt text](./jwt.jpg?raw=true "Title")
 
+References:
+
+- [How to Set Up Java Spring Boot JWT Authorization and Authentication](https://www.freecodecamp.org/news/how-to-setup-jwt-authorization-and-authentication-in-spring/)
+- [Spring Security](https://amigoscode.com/)
