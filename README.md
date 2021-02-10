@@ -97,7 +97,7 @@ them and are neither registered nor public claims.
 The payload is then Base64Url encoded to form the second part of the JSON Web Token.
 
 #### Signature ####
-It is used to verify the message wan't changed and in case of tokens signed with a private key, it can verify that the 
+It is used to verify the message wasn't changed and in case of tokens signed with a private key, it can verify that the 
 sender of JWT is who it says it is.
 We have to take the encoded header, encoded payload, a secret, the algorithm specified in the header and sign that.
 For example, if we are using HMAC SHA256 algorithm:
